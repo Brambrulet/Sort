@@ -1,5 +1,5 @@
 package study.inno.sort;
 
 public interface BaseSort {
-    boolean sort(int[] aArray);
+    void sort(Integer[] aArray) throws IndexOutOfBoundsException, NullPointerException;
 }

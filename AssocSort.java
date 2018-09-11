@@ -5,9 +5,10 @@ class AssocSort implements BaseSort {
     }
 
     @Override
-    public boolean sort(int[] aArray) {
+    public void sort(Integer[] aArray) throws IndexOutOfBoundsException, NullPointerException {
 
-        if (aArray == null || aArray.length == 0) return false;
+        if (aArray == null) throw new NullPointerException();
+        else if (aArray.length == 0) throw new IndexOutOfBoundsException();
 
         int vArrSize = aArray.length, vVal, vBegin, vEnd, vPos, vLen;
 
@@ -15,7 +16,8 @@ class AssocSort implements BaseSort {
             //сортировка начинается со второго элемента
             //первый сам по себе уже является сортированным массивом
 
-            //Ищем куда приткнуть имеющийся элемент в уже отсортированный массив
+            //Ищем куда приткнуть имеющийся элемент в уже отсортированную часть массива
+            //Поиск методом половинного деления
             vVal = aArray[i];
             vBegin = 0;
             vEnd = i - 1;
@@ -29,21 +31,15 @@ class AssocSort implements BaseSort {
                 else vBegin = vPos + 1;
             }
 
-            //если у нас остался в отсортированной части только один элемент на выбор
-            //то просто выбираем с какой стороны расположить текущий элемент
+            //сузили поиск до одного элемента, и теперь
+            //просто выбираем с какой стороны расположить текущий элемент
             vPos = vEnd;
             if (vVal >= aArray[vEnd]) ++vPos;
-            if (vPos == i) continue;
+            if (vPos == i) continue; //элемент уже на своём месте
             vLen = i - vPos;
 
-            if (vLen > 0) {
-                System.arraycopy(aArray, vPos, aArray, vPos + 1, vLen);
-                aArray[vPos] = vVal;
-            }
-            //если условие не прокатило, то элемент уже на своём месле
-
+            System.arraycopy(aArray, vPos, aArray, vPos + 1, vLen);
+            aArray[vPos] = vVal;
         }
-
-        return true;
     }
 }
